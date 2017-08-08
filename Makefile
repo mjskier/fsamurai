@@ -2,7 +2,7 @@ F90=gfortran
 F77FLAGS= -g
 
 CXX=g++
-CXXFLAGS= -g
+CXXFLAGS= -gdwarf-4
 
 SAMURAI_LIB = /home/bpmelli/devel/samurai.mycoamps/build/release/lib/libsamurai.a
 QT_LIBS = -L /home/bpmelli/.linuxbrew/opt/qt/lib -lQt5Core -lQt5Gui -lQt5Xml

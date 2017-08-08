@@ -60,12 +60,12 @@ program main
      do j = 1, ny, 1
         do k = 1, nsigma
            lats(i, j) = i
-           longs(i, j) = j
-           u1(i, j, k) = i
-           v1(i, j, k) = j
-           w1(i, j, k) = k
-           th1(i, j, k) = 0
-           p1(i, j, k) = 0
+           longs(i, j) = i * 100 + j * 10 + k
+           u1(i, j, k) = i * 100 + j * 10 + k
+           v1(i, j, k) = i * 100 + j * 10 + k
+           w1(i, j, k) = i * 100 + j * 10 + k
+           th1(i, j, k) = i * 100 + j * 10 + k
+           p1(i, j, k) = i * 100 + j * 10 + k
            write(*, 100) i, j, k, u1(i, j, k), v1(i, j, k), w1(i, j, k)
            
            ! This is how the arrays could be initialized with values read from a file
@@ -78,11 +78,19 @@ program main
   end do
   close(8)
 
-  ! Get a handle to varderiver3d. This driver will be initialized with the
-  ! values in the config structure
-  
-  driver = create_vardriver3d_c(config)
+  ! Get a handle to varderiver3d.
+  ! If you want to initialize with values in the config structure
+  ! use this call
+  ! driver = create_vardriver3d_c(config)
 
+  ! To pint to an xml file, use this call instead
+  driver = create_vardriver3d_from_xml_c(C_CHAR_"/home/bpmelli/scratch/debug/samurai_basic_cylind.xml"//C_NULL_CHAR)
+  
+  if( .not. c_associated(driver) ) then
+     print *, 'Error creating driver from config file'
+     call EXIT(1)
+  end if
+  
   ! Run the driver with a given set of input.
   ! This procedure can be called multiple times with different input.
   
@@ -108,8 +116,8 @@ program main
   
   call delete_vardriver3d_c(driver)
 
-100 format('(', i3,  ',', i3, ', ', i3, ') ', 'u: ', f5.2, ' v: ', f5.2, ' w: ', f5.2)
-200 format('(', i3,  ',', i3, ', ', i3, ') ', 'u: ', f5.2, ' v: ', f5.2, ' w: ', f5.2, &
-         ' t: ', f5.2, 'p: ', f5.2)
+100 format('(', i3,  ',', i3, ', ', i3, ') ', 'u: ', f7.2, ' v: ', f7.2, ' w: ', f7.2)
+200 format('(', i3,  ',', i3, ', ', i3, ') ', 'u: ', f7.2, ' v: ', f7.2, ' w: ', f7.2, &
+         ' t: ', f7.2, 'p: ', f7.2)
   
 end program main

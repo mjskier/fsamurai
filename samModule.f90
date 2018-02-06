@@ -16,20 +16,20 @@ module samModule
 
      ! COAMPS-TC array grid dimensions for current grid
      !  (could be either nest 1, 2 or 3)
-     integer(C_INT) :: nx = 4
-     integer(C_INT) :: ny = 5
-     integer(C_INT) :: nz = 10
+     ! integer(C_INT) :: nx = 4
+     ! integer(C_INT) :: ny = 5
+     ! integer(C_INT) :: nz = 10
 
-     ! grid
-     real(C_FLOAT) :: i_min = -50.0
-     real(C_FLOAT) :: i_max = 50.0
-     real(C_FLOAT) :: i_incr = 1.0
-     real(C_FLOAT) :: j_min = -50.0
-     real(C_FLOAT) :: j_max = 50.0
-     real(C_FLOAT) :: j_incr = 1.0
-     real(C_FLOAT) :: k_min = 0.0
-     real(C_FLOAT) :: k_max = 16.0
-     real(C_FLOAT) :: k_incr = 0.5
+     ! ! grid
+     ! real(C_FLOAT) :: i_min = -50.0
+     ! real(C_FLOAT) :: i_max = 50.0
+     ! real(C_FLOAT) :: i_incr = 1.0
+     ! real(C_FLOAT) :: j_min = -50.0
+     ! real(C_FLOAT) :: j_max = 50.0
+     ! real(C_FLOAT) :: j_incr = 1.0
+     ! real(C_FLOAT) :: k_min = 0.0
+     ! real(C_FLOAT) :: k_max = 16.0
+     ! real(C_FLOAT) :: k_incr = 0.5
 
      ! background
      real(C_FLOAT) :: i_background_roi = 25.0
@@ -97,8 +97,8 @@ module samModule
      real(C_FLOAT) :: radar_min_error = 1.0
 
      ! COAMPS-TC delta x and delta y for current grid
-     real(C_FLOAT) :: delx
-     real(C_FLOAT) :: dely
+     ! real(C_FLOAT) :: delx
+     ! real(C_FLOAT) :: dely
 
      !operation
      ! character(kind=C_CHAR, len=1) :: load_background = 0
@@ -177,7 +177,7 @@ module samModule
      character (kind= C_CHAR, len=5) :: mask_reflectivity = 'None' // C_NULL_CHAR
 
      ! background
-     character (kind= C_CHAR, len=9) :: ref_time = '18:15:00' // C_NULL_CHAR
+     ! character (kind= C_CHAR, len=9) :: ref_time = '18:15:00' // C_NULL_CHAR
 
      ! background
      character (kind= C_CHAR, len=14) :: ref_statei = 'dunion_mt.snd' // C_NULL_CHAR

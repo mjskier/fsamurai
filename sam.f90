@@ -21,13 +21,30 @@ program main
 
   real :: f1, f2, f3, f4, f5, f6, f7, f8
 
+  real :: i_min, i_max, i_incr
+  real :: j_min, j_max, j_incr
+
+  character (kind=c_char, len=10) :: cdtg = "2015100412"
+  integer :: delta = 1
+  integer ::iter1 = 2
+  
   integer :: status
   
   namelist /sigs/ sigmas
 
-  nx = config%nx
-  ny = config%ny
+  ! nx = config%nx
+  ! ny = config%ny
+  nx = 4
+  ny = 5
   nsigma = 42
+
+  i_min = -50.0
+  i_max = 50.0
+  i_incr = 1.0
+  
+  j_min = -50.0
+  j_max = 50.0
+  j_incr = 1.0
 
   ! allocate( sigmas(nsigma) )
   allocate( lats(nx, ny), stat = status )
@@ -83,24 +100,54 @@ program main
   ! use this call
   ! driver = create_vardriver3d_c(config)
 
-  ! To pint to an xml file, use this call instead
-  driver = create_vardriver3d_from_xml_c(C_CHAR_"/home/bpmelli/scratch/debug/samurai_basic_cylind.xml"//C_NULL_CHAR)
+  ! To initialize from an xml config file, use this call instead
+  driver = create_vardriver3d_from_xml_c(C_CHAR_"./samurai_basic_cylind.xml"//C_NULL_CHAR)
   
   if( .not. c_associated(driver) ) then
      print *, 'Error creating driver from config file'
      call EXIT(1)
   end if
+
+  ! Do the following a few times
+
+  ! Clear up old centers if we don't need them anymore
   
+  call clear_centers_c(driver)
+  
+  ! Append a few centers. Date is yyyyMMdd, time is HHmmss
+
+  call append_center_c(driver, "20151014", "180001", 18.0, 150.543838143984, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180002", 18.0, 150.543800374824, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180003", 18.0, 150.543762605663, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180004", 18.0, 150.543724836502, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180005", 18.0, 150.543687067342, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180006", 18.0, 150.543649298181, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180007", 18.0, 150.54361152902, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180008", 18.0, 150.54357375986, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180009", 18.0, 150.543535990699, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180010", 18.0, 150.543498221539, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180011", 18.0, 150.543460452378, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180012", 18.0, 150.543422683217, 0.0, -4.0)
+  call append_center_c(driver, "20151014", "180013", 18.0, 150.543384914057, 0.0, -4.0)
+
   ! Run the driver with a given set of input.
   ! This procedure can be called multiple times with different input.
+
+  ! This is a function, so check the return value
   
-  call run_vardriver3d_c(driver, &
+  if( .not. run_vardriver3d_c(driver, &
        nx, ny, nsigma, &
-       config%i_incr, config%j_incr, &
+       cdtg, delta, iter1, &
+       i_min, i_max, i_incr, &
+       j_min, j_max, j_incr, &
        sigmas, lats, longs, &
        u1, v1, w1, th1, p1, &
-       usam, vsam, wsam, thsam, psam)
+       usam, vsam, wsam, thsam, psam)) then
+     print *, "run_vardriver3d_c was not successful."
+     call EXIT(1)
+  endif
 
+  ! If we get here, the run was successful
   ! Print the output arrays to make sure we can handle data from the C++ side correctly
   
   do i = 1, nx, 1

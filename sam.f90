@@ -101,7 +101,7 @@ program main
   ! driver = create_vardriver3d_c(config)
 
   ! To initialize from an xml config file, use this call instead
-  driver = create_vardriver3d_from_xml_c(C_CHAR_"./samurai_basic_cylind.xml"//C_NULL_CHAR)
+  driver = create_vardriver3d_from_xml_c(C_CHAR_"./samurai_basic_cylind.xml"//C_NULL_CHAR, LOGICAL(.FALSE., C_BOOL))
   
   if( .not. c_associated(driver) ) then
      print *, 'Error creating driver from config file'

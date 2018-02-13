@@ -24,9 +24,9 @@ program main
   real :: i_min, i_max, i_incr
   real :: j_min, j_max, j_incr
 
-  character (kind=c_char, len=10) :: cdtg = "2015100412"
-  integer :: delta = 1
-  integer ::iter1 = 2
+  character (kind=c_char, len=10) :: cdtg = "2015092912"
+  integer :: delta = 15
+  integer ::iter1 = 60
   
   integer :: status
   
@@ -98,7 +98,7 @@ program main
   ! Get a handle to varderiver3d.
   ! If you want to initialize with values in the config structure
   ! use this call
-  ! driver = create_vardriver3d_c(config)
+  ! driver = create_vardriver3d_c(config, LOGICAL(.FALSE., C_BOOL))
 
   ! To initialize from an xml config file, use this call instead
   driver = create_vardriver3d_from_xml_c(C_CHAR_"./samurai_basic_cylind.xml"//C_NULL_CHAR, LOGICAL(.FALSE., C_BOOL))
@@ -107,28 +107,6 @@ program main
      print *, 'Error creating driver from config file'
      call EXIT(1)
   end if
-
-  ! Do the following a few times
-
-  ! Clear up old centers if we don't need them anymore
-  
-  call clear_centers_c(driver)
-  
-  ! Append a few centers. Date is yyyyMMdd, time is HHmmss
-
-  call append_center_c(driver, "20151014", "180001", 18.0, 150.543838143984, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180002", 18.0, 150.543800374824, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180003", 18.0, 150.543762605663, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180004", 18.0, 150.543724836502, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180005", 18.0, 150.543687067342, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180006", 18.0, 150.543649298181, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180007", 18.0, 150.54361152902, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180008", 18.0, 150.54357375986, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180009", 18.0, 150.543535990699, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180010", 18.0, 150.543498221539, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180011", 18.0, 150.543460452378, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180012", 18.0, 150.543422683217, 0.0, -4.0)
-  call append_center_c(driver, "20151014", "180013", 18.0, 150.543384914057, 0.0, -4.0)
 
   ! Run the driver with a given set of input.
   ! This procedure can be called multiple times with different input.
